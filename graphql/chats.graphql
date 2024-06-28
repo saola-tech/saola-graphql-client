@@ -1,0 +1,36 @@
+fragment Chat on chats {
+  id
+  created_at
+  updated_at
+  workspace_id
+  platform_id
+  channel_id
+  contact_id
+  messages
+  status
+  last_message_at
+  source {
+    ...Source
+  }
+  workspace {
+    ...Workspace
+  }
+}
+
+query GetChat($id: uuid!) {
+  chats_by_pk(id: $id) {
+    ...Chat
+  }
+}
+
+query GetChatsByStatus($status: chat_statuses_enum!) {
+  chats(where: { status: { _eq: $status } }) {
+    ...Chat
+  }
+}
+
+query GetSourceChats($sourceId: uuid!) {
+  chats(where: { source_id: { _eq: $sourceId } }) {
+    ...Chat
+  }
+}

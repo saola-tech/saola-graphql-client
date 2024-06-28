@@ -1,0 +1,34 @@
+fragment Connection on connections {
+  id
+  state
+  created_at
+  source_id
+  destination_id
+  workspace_id
+  active
+  status
+  state
+  source {
+    ...Source
+  }
+}
+
+query GetActiveConnections {
+  connections(where: { active: { _eq: true } }) {
+    ...Connection
+  }
+}
+
+query GetWorkspaceConnections($workspace_id: uuid!) {
+  connections(
+    where: { workspace_id: { _eq: $workspace_id }, active: { _eq: true } }
+  ) {
+    ...Connection
+  }
+}
+
+query GetConnection($id: uuid!) {
+  connections_by_pk(id: $id) {
+    ...Connection
+  }
+}

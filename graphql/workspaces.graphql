@@ -1,0 +1,27 @@
+fragment Workspace on workspaces {
+  id
+  name
+  user_id
+  created_at
+  updated_at
+  user_workspaces {
+    id
+    role
+    user_id
+    updated_at
+    created_at
+    workspace_id
+  }
+}
+
+query GetWorkspace($id: uuid!) {
+  workspaces_by_pk(id: $id) {
+    ...Workspace
+  }
+}
+
+query GetWorkspaces {
+  workspaces {
+    ...Workspace
+  }
+}

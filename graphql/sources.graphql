@@ -1,0 +1,34 @@
+fragment OAuthApp on oauth_apps {
+  id
+  name
+  client_id
+  created_at
+  updated_at
+  callback_url
+}
+
+fragment Source on sources {
+  id
+  name
+  type
+  user_id
+  workspace_id
+  config
+  created_at
+  updated_at
+  oauth_app {
+    ...OAuthApp
+  }
+}
+
+query GetSource($id: uuid!) {
+  sources_by_pk(id: $id) {
+    ...Source
+  }
+}
+
+query GetWorkspaceSources($workspace_id: uuid!) {
+  sources(where: { workspace_id: { _eq: $workspace_id } }) {
+    ...Source
+  }
+}

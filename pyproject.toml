@@ -1,0 +1,4 @@
+[tool.ariadne-codegen]
+queries_path = "graphql"
+remote_schema_url = "https://app.saola.sg/v1/graphql"
+remote_schema_headers = {"Authorization" = "Bearer ..."}
