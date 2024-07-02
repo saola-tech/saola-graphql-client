@@ -40,3 +40,8 @@ asyncio.run(get_and_print_current_user(client, user_id))
 ```
 
 Check `examples/` for more examples.
+
+
+### Available methods
+
+Check [saola_graphql_client/graphql_client/client.py](saola_graphql_client/graphql_client/client.py) for the available methods.
