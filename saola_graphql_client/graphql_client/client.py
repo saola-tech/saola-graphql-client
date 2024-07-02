@@ -13,10 +13,14 @@ from .get_connection import GetConnection
 from .get_crm_record import GetCrmRecord
 from .get_source import GetSource
 from .get_source_chats import GetSourceChats
+from .get_user import GetUser
 from .get_workspace import GetWorkspace
 from .get_workspace_connections import GetWorkspaceConnections
 from .get_workspace_sources import GetWorkspaceSources
 from .get_workspaces import GetWorkspaces
+from .input_types import RefreshInput, SignOutInput
+from .refresh_access_token import RefreshAccessToken
+from .sign_out import SignOut
 
 
 def gql(q: str) -> str:
@@ -614,6 +618,41 @@ class Client(AsyncBaseClient):
         data = self.get_data(response)
         return GetCrmRecord.model_validate(data)
 
+    async def sign_out(self, sign_out_input: SignOutInput, **kwargs: Any) -> SignOut:
+        query = gql(
+            """
+            mutation SignOut($signOutInput: SignOutInput!) {
+              signOut(signOutInput: $signOutInput)
+            }
+            """
+        )
+        variables: Dict[str, object] = {"signOutInput": sign_out_input}
+        response = await self.execute(
+            query=query, operation_name="SignOut", variables=variables, **kwargs
+        )
+        data = self.get_data(response)
+        return SignOut.model_validate(data)
+
+    async def refresh_access_token(
+        self, refresh_input: RefreshInput, **kwargs: Any
+    ) -> RefreshAccessToken:
+        query = gql(
+            """
+            mutation RefreshAccessToken($refreshInput: RefreshInput!) {
+              refreshAccessToken(refreshInput: $refreshInput)
+            }
+            """
+        )
+        variables: Dict[str, object] = {"refreshInput": refresh_input}
+        response = await self.execute(
+            query=query,
+            operation_name="RefreshAccessToken",
+            variables=variables,
+            **kwargs,
+        )
+        data = self.get_data(response)
+        return RefreshAccessToken.model_validate(data)
+
     async def get_source(self, id: Any, **kwargs: Any) -> GetSource:
         query = gql(
             """
@@ -698,6 +737,50 @@ class Client(AsyncBaseClient):
         )
         data = self.get_data(response)
         return GetWorkspaceSources.model_validate(data)
+
+    async def get_user(self, id: Any, **kwargs: Any) -> GetUser:
+        query = gql(
+            """
+            query GetUser($id: uuid!) {
+              user(id: $id) {
+                ...User
+              }
+            }
+
+            fragment User on users {
+              id
+              displayName
+              email
+              user_workspaces {
+                workspace {
+                  ...Workspace
+                }
+              }
+            }
+
+            fragment Workspace on workspaces {
+              id
+              name
+              user_id
+              created_at
+              updated_at
+              user_workspaces {
+                id
+                role
+                user_id
+                updated_at
+                created_at
+                workspace_id
+              }
+            }
+            """
+        )
+        variables: Dict[str, object] = {"id": id}
+        response = await self.execute(
+            query=query, operation_name="GetUser", variables=variables, **kwargs
+        )
+        data = self.get_data(response)
+        return GetUser.model_validate(data)
 
     async def get_workspace(self, id: Any, **kwargs: Any) -> GetWorkspace:
         query = gql(

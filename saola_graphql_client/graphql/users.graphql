@@ -1,0 +1,16 @@
+fragment User on users {
+  id
+  displayName
+  email
+  user_workspaces {
+    workspace {
+      ...Workspace
+    }
+  }
+}
+
+query GetUser($id: uuid!) {
+  user(id: $id) {
+    ...User
+  }
+}

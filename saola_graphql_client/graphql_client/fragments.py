@@ -3,6 +3,8 @@
 
 from typing import Any, List, Optional
 
+from pydantic import Field
+
 from .base_model import BaseModel
 from .enums import (
     chat_statuses_enum,
@@ -11,6 +13,24 @@ from .enums import (
     statuses_enum,
     workspace_roles_enum,
 )
+
+
+class Workspace(BaseModel):
+    id: Any
+    name: str
+    user_id: Optional[Any]
+    created_at: Any
+    updated_at: Any
+    user_workspaces: List["WorkspaceUserWorkspaces"]
+
+
+class WorkspaceUserWorkspaces(BaseModel):
+    id: Any
+    role: workspace_roles_enum
+    user_id: Any
+    updated_at: Any
+    created_at: Any
+    workspace_id: Any
 
 
 class OAuthApp(BaseModel):
@@ -36,24 +56,6 @@ class Source(BaseModel):
 
 class SourceOauthApp(OAuthApp):
     pass
-
-
-class Workspace(BaseModel):
-    id: Any
-    name: str
-    user_id: Optional[Any]
-    created_at: Any
-    updated_at: Any
-    user_workspaces: List["WorkspaceUserWorkspaces"]
-
-
-class WorkspaceUserWorkspaces(BaseModel):
-    id: Any
-    role: workspace_roles_enum
-    user_id: Any
-    updated_at: Any
-    created_at: Any
-    workspace_id: Any
 
 
 class Chat(BaseModel):
@@ -116,9 +118,25 @@ class CrmRecordChat(Chat):
     pass
 
 
+class User(BaseModel):
+    id: Any
+    display_name: str = Field(alias="displayName")
+    email: Optional[Any]
+    user_workspaces: List["UserUserWorkspaces"]
+
+
+class UserUserWorkspaces(BaseModel):
+    workspace: "UserUserWorkspacesWorkspace"
+
+
+class UserUserWorkspacesWorkspace(Workspace):
+    pass
+
+
+Workspace.model_rebuild()
 OAuthApp.model_rebuild()
 Source.model_rebuild()
-Workspace.model_rebuild()
 Chat.model_rebuild()
 Connection.model_rebuild()
 CrmRecord.model_rebuild()
+User.model_rebuild()

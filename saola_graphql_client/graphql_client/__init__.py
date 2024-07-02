@@ -58,6 +58,9 @@ from .fragments import (
     OAuthApp,
     Source,
     SourceOauthApp,
+    User,
+    UserUserWorkspaces,
+    UserUserWorkspacesWorkspace,
     Workspace,
     WorkspaceUserWorkspaces,
 )
@@ -72,6 +75,7 @@ from .get_connection import GetConnection, GetConnectionConnectionsByPk
 from .get_crm_record import GetCrmRecord, GetCrmRecordCrmRecordsByPk
 from .get_source import GetSource, GetSourceSourcesByPk
 from .get_source_chats import GetSourceChats, GetSourceChatsChats
+from .get_user import GetUser, GetUserUser
 from .get_workspace import GetWorkspace, GetWorkspaceWorkspacesByPk
 from .get_workspace_connections import (
     GetWorkspaceConnections,
@@ -239,6 +243,8 @@ from .input_types import (
     workspaces_stream_cursor_input,
     workspaces_stream_cursor_value_input,
 )
+from .refresh_access_token import RefreshAccessToken
+from .sign_out import SignOut
 
 __all__ = [
     "AsyncBaseClient",
@@ -269,6 +275,8 @@ __all__ = [
     "GetSourceChats",
     "GetSourceChatsChats",
     "GetSourceSourcesByPk",
+    "GetUser",
+    "GetUserUser",
     "GetWorkspace",
     "GetWorkspaceConnections",
     "GetWorkspaceConnectionsConnections",
@@ -284,12 +292,17 @@ __all__ = [
     "GraphQLClientInvalidResponseError",
     "Int_comparison_exp",
     "OAuthApp",
+    "RefreshAccessToken",
     "RefreshInput",
+    "SignOut",
     "SignOutInput",
     "Source",
     "SourceOauthApp",
     "String_comparison_exp",
     "Upload",
+    "User",
+    "UserUserWorkspaces",
+    "UserUserWorkspacesWorkspace",
     "Workspace",
     "WorkspaceUserWorkspaces",
     "agents_aggregate_bool_exp",

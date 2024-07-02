@@ -1,0 +1,7 @@
+mutation SignOut($signOutInput: SignOutInput!) {
+  signOut(signOutInput: $signOutInput)
+}
+
+mutation RefreshAccessToken($refreshInput: RefreshInput!) {
+  refreshAccessToken(refreshInput: $refreshInput)
+}
