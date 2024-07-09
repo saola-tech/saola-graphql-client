@@ -1,13 +1,7 @@
 fragment CrmRecord on crm_records {
   id
   source_id
-  source {
-    ...Source
-  }
   chat_id
-  chat {
-    ...Chat
-  }
   type
   attributes
   updated_at

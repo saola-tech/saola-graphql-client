@@ -48,13 +48,12 @@ from .exceptions import (
 )
 from .fragments import (
     Chat,
+    ChatCrmRecords,
     ChatSource,
     ChatWorkspace,
     Connection,
     ConnectionSource,
     CrmRecord,
-    CrmRecordChat,
-    CrmRecordSource,
     OAuthApp,
     Source,
     SourceOauthApp,
@@ -70,6 +69,7 @@ from .get_active_connections import (
 )
 from .get_chat import GetChat, GetChatChatsByPk
 from .get_chat_crm_records import GetChatCrmRecords, GetChatCrmRecordsCrmRecords
+from .get_chats import GetChats, GetChatsChats
 from .get_chats_by_status import GetChatsByStatus, GetChatsByStatusChats
 from .get_connection import GetConnection, GetConnectionConnectionsByPk
 from .get_crm_record import GetCrmRecord, GetCrmRecordCrmRecordsByPk
@@ -251,22 +251,23 @@ __all__ = [
     "BaseModel",
     "Boolean_comparison_exp",
     "Chat",
+    "ChatCrmRecords",
     "ChatSource",
     "ChatWorkspace",
     "Client",
     "Connection",
     "ConnectionSource",
     "CrmRecord",
-    "CrmRecordChat",
-    "CrmRecordSource",
     "GetActiveConnections",
     "GetActiveConnectionsConnections",
     "GetChat",
     "GetChatChatsByPk",
     "GetChatCrmRecords",
     "GetChatCrmRecordsCrmRecords",
+    "GetChats",
     "GetChatsByStatus",
     "GetChatsByStatusChats",
+    "GetChatsChats",
     "GetConnection",
     "GetConnectionConnectionsByPk",
     "GetCrmRecord",

@@ -1,6 +1,6 @@
 [project]
 name = "saola_graphql_client"
-version = "0.0.5"
+version = "0.0.8"
 authors = [
   { name="Saola", email="support@saola.sg" },
 ]

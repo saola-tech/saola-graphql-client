@@ -15,10 +15,19 @@ fragment Chat on chats {
   workspace {
     ...Workspace
   }
+  crm_records {
+    ...CrmRecord
+  }
 }
 
 query GetChat($id: uuid!) {
   chats_by_pk(id: $id) {
+    ...Chat
+  }
+}
+
+query GetChats {
+  chats {
     ...Chat
   }
 }

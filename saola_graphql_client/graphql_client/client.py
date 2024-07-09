@@ -8,6 +8,7 @@ from .enums import chat_statuses_enum
 from .get_active_connections import GetActiveConnections
 from .get_chat import GetChat
 from .get_chat_crm_records import GetChatCrmRecords
+from .get_chats import GetChats
 from .get_chats_by_status import GetChatsByStatus
 from .get_connection import GetConnection
 from .get_crm_record import GetCrmRecord
@@ -54,6 +55,19 @@ class Client(AsyncBaseClient):
               workspace {
                 ...Workspace
               }
+              crm_records {
+                ...CrmRecord
+              }
+            }
+
+            fragment CrmRecord on crm_records {
+              id
+              source_id
+              chat_id
+              type
+              attributes
+              updated_at
+              created_at
             }
 
             fragment OAuthApp on oauth_apps {
@@ -103,6 +117,94 @@ class Client(AsyncBaseClient):
         data = self.get_data(response)
         return GetChat.model_validate(data)
 
+    async def get_chats(self, **kwargs: Any) -> GetChats:
+        query = gql(
+            """
+            query GetChats {
+              chats {
+                ...Chat
+              }
+            }
+
+            fragment Chat on chats {
+              id
+              created_at
+              updated_at
+              workspace_id
+              platform_id
+              channel_id
+              contact_id
+              messages
+              status
+              last_message_at
+              source {
+                ...Source
+              }
+              workspace {
+                ...Workspace
+              }
+              crm_records {
+                ...CrmRecord
+              }
+            }
+
+            fragment CrmRecord on crm_records {
+              id
+              source_id
+              chat_id
+              type
+              attributes
+              updated_at
+              created_at
+            }
+
+            fragment OAuthApp on oauth_apps {
+              id
+              name
+              client_id
+              created_at
+              updated_at
+              callback_url
+            }
+
+            fragment Source on sources {
+              id
+              name
+              type
+              user_id
+              workspace_id
+              config
+              created_at
+              updated_at
+              oauth_app {
+                ...OAuthApp
+              }
+            }
+
+            fragment Workspace on workspaces {
+              id
+              name
+              user_id
+              created_at
+              updated_at
+              user_workspaces {
+                id
+                role
+                user_id
+                updated_at
+                created_at
+                workspace_id
+              }
+            }
+            """
+        )
+        variables: Dict[str, object] = {}
+        response = await self.execute(
+            query=query, operation_name="GetChats", variables=variables, **kwargs
+        )
+        data = self.get_data(response)
+        return GetChats.model_validate(data)
+
     async def get_chats_by_status(
         self, status: chat_statuses_enum, **kwargs: Any
     ) -> GetChatsByStatus:
@@ -131,6 +233,19 @@ class Client(AsyncBaseClient):
               workspace {
                 ...Workspace
               }
+              crm_records {
+                ...CrmRecord
+              }
+            }
+
+            fragment CrmRecord on crm_records {
+              id
+              source_id
+              chat_id
+              type
+              attributes
+              updated_at
+              created_at
             }
 
             fragment OAuthApp on oauth_apps {
@@ -209,6 +324,19 @@ class Client(AsyncBaseClient):
               workspace {
                 ...Workspace
               }
+              crm_records {
+                ...CrmRecord
+              }
+            }
+
+            fragment CrmRecord on crm_records {
+              id
+              source_id
+              chat_id
+              type
+              attributes
+              updated_at
+              created_at
             }
 
             fragment OAuthApp on oauth_apps {
@@ -442,78 +570,14 @@ class Client(AsyncBaseClient):
               }
             }
 
-            fragment Chat on chats {
-              id
-              created_at
-              updated_at
-              workspace_id
-              platform_id
-              channel_id
-              contact_id
-              messages
-              status
-              last_message_at
-              source {
-                ...Source
-              }
-              workspace {
-                ...Workspace
-              }
-            }
-
             fragment CrmRecord on crm_records {
               id
               source_id
-              source {
-                ...Source
-              }
               chat_id
-              chat {
-                ...Chat
-              }
               type
               attributes
               updated_at
               created_at
-            }
-
-            fragment OAuthApp on oauth_apps {
-              id
-              name
-              client_id
-              created_at
-              updated_at
-              callback_url
-            }
-
-            fragment Source on sources {
-              id
-              name
-              type
-              user_id
-              workspace_id
-              config
-              created_at
-              updated_at
-              oauth_app {
-                ...OAuthApp
-              }
-            }
-
-            fragment Workspace on workspaces {
-              id
-              name
-              user_id
-              created_at
-              updated_at
-              user_workspaces {
-                id
-                role
-                user_id
-                updated_at
-                created_at
-                workspace_id
-              }
             }
             """
         )
@@ -536,78 +600,14 @@ class Client(AsyncBaseClient):
               }
             }
 
-            fragment Chat on chats {
-              id
-              created_at
-              updated_at
-              workspace_id
-              platform_id
-              channel_id
-              contact_id
-              messages
-              status
-              last_message_at
-              source {
-                ...Source
-              }
-              workspace {
-                ...Workspace
-              }
-            }
-
             fragment CrmRecord on crm_records {
               id
               source_id
-              source {
-                ...Source
-              }
               chat_id
-              chat {
-                ...Chat
-              }
               type
               attributes
               updated_at
               created_at
-            }
-
-            fragment OAuthApp on oauth_apps {
-              id
-              name
-              client_id
-              created_at
-              updated_at
-              callback_url
-            }
-
-            fragment Source on sources {
-              id
-              name
-              type
-              user_id
-              workspace_id
-              config
-              created_at
-              updated_at
-              oauth_app {
-                ...OAuthApp
-              }
-            }
-
-            fragment Workspace on workspaces {
-              id
-              name
-              user_id
-              created_at
-              updated_at
-              user_workspaces {
-                id
-                role
-                user_id
-                updated_at
-                created_at
-                workspace_id
-              }
             }
             """
         )

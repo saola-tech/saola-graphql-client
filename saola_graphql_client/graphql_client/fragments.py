@@ -15,24 +15,6 @@ from .enums import (
 )
 
 
-class Workspace(BaseModel):
-    id: Any
-    name: str
-    user_id: Optional[Any]
-    created_at: Any
-    updated_at: Any
-    user_workspaces: List["WorkspaceUserWorkspaces"]
-
-
-class WorkspaceUserWorkspaces(BaseModel):
-    id: Any
-    role: workspace_roles_enum
-    user_id: Any
-    updated_at: Any
-    created_at: Any
-    workspace_id: Any
-
-
 class OAuthApp(BaseModel):
     id: Any
     name: Optional[str]
@@ -58,6 +40,34 @@ class SourceOauthApp(OAuthApp):
     pass
 
 
+class CrmRecord(BaseModel):
+    id: Any
+    source_id: Any
+    chat_id: Any
+    type: crm_record_types_enum
+    attributes: Any
+    updated_at: Any
+    created_at: Any
+
+
+class Workspace(BaseModel):
+    id: Any
+    name: str
+    user_id: Optional[Any]
+    created_at: Any
+    updated_at: Any
+    user_workspaces: List["WorkspaceUserWorkspaces"]
+
+
+class WorkspaceUserWorkspaces(BaseModel):
+    id: Any
+    role: workspace_roles_enum
+    user_id: Any
+    updated_at: Any
+    created_at: Any
+    workspace_id: Any
+
+
 class Chat(BaseModel):
     id: Any
     created_at: Any
@@ -71,6 +81,7 @@ class Chat(BaseModel):
     last_message_at: Optional[Any]
     source: "ChatSource"
     workspace: "ChatWorkspace"
+    crm_records: List["ChatCrmRecords"]
 
 
 class ChatSource(Source):
@@ -78,6 +89,10 @@ class ChatSource(Source):
 
 
 class ChatWorkspace(Workspace):
+    pass
+
+
+class ChatCrmRecords(CrmRecord):
     pass
 
 
@@ -98,26 +113,6 @@ class ConnectionSource(Source):
     pass
 
 
-class CrmRecord(BaseModel):
-    id: Any
-    source_id: Any
-    source: "CrmRecordSource"
-    chat_id: Any
-    chat: "CrmRecordChat"
-    type: crm_record_types_enum
-    attributes: Any
-    updated_at: Any
-    created_at: Any
-
-
-class CrmRecordSource(Source):
-    pass
-
-
-class CrmRecordChat(Chat):
-    pass
-
-
 class User(BaseModel):
     id: Any
     display_name: str = Field(alias="displayName")
@@ -133,10 +128,10 @@ class UserUserWorkspacesWorkspace(Workspace):
     pass
 
 
-Workspace.model_rebuild()
 OAuthApp.model_rebuild()
 Source.model_rebuild()
+CrmRecord.model_rebuild()
+Workspace.model_rebuild()
 Chat.model_rebuild()
 Connection.model_rebuild()
-CrmRecord.model_rebuild()
 User.model_rebuild()
